@@ -21,8 +21,9 @@ class Stack:
         else:
             return False
 
-    def push(self, item) -> None:
+    def push(self, item) -> list:
         self.items.append(item)
+        return self.items
 
     def pop(self):
         if not self.is_empty():
