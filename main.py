@@ -42,3 +42,21 @@ class Stack:
             return len(self.items)
         else:
             return 0
+
+
+def check_balance(string: str) -> bool:
+    stack = Stack()
+    open_brackets = ['(', '{', '[']
+    close_brackets = [')', '}', ']']
+    for char in string:
+        if char in open_brackets:
+            stack.push(char)
+        elif char in close_brackets:
+            if stack.is_empty():
+                return False
+            else:
+                if open_brackets.index(stack.peek()) == close_brackets.index(char):
+                    stack.pop()
+                else:
+                    return False
+    return stack.is_empty()
