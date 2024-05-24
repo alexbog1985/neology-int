@@ -22,6 +22,7 @@ class Email:
         self.msg['To'] = ', '.join(recipients)
         self.msg['Subject'] = subject
         self.msg.attach(MIMEText(message))
+        
         self.ms = smtplib.SMTP(GMAIL_SMTP, 587)
         # identify ourselves to smtp gmail client
         self.ms.ehlo()
@@ -43,6 +44,7 @@ class Email:
         self.criterion = '(HEADER Subject "%s")' % self.header if self.header else 'ALL'
         self.result, self.data = self.mail.uid('search', None, self.criterion)
         assert self.data[0], 'There are no letters with current header'
+        
         self.latest_email_uid = self.data[0].split()[-1]
         self.result, self.data = self.mail.uid('fetch', self.latest_email_uid, '(RFC822)')
         self.raw_email = self.data[0][1]
@@ -52,10 +54,14 @@ class Email:
 
 
 if __name__ == '__main__':
-    pass
-    # login = 'login@gmail.com'
-    # password = 'qwerty'
-    # subject = 'Subject'
-    # recipients = ['vasya@email.com', 'petya@email.com']
-    # message = 'Message'
-    # header = None
+    login = 'login@gmail.com'
+    password = 'qwerty'
+    subject = 'Subject'
+    recipients = ['vasya@email.com', 'petya@email.com']
+    message = 'Message'
+    header = None
+    
+    email = Email(login, password)
+    
+    email.send_message(subject, recipients, message)
+    email.recieve_message()
